@@ -4,30 +4,21 @@ An architectural prototype of an NGO web portal built with a clear separation of
 
 ## Key Features
 
-### 👤 User Capabilities
+### User Capabilities
 *   **Independent Registration:** User details are saved permanently to MongoDB Atlas regardless of whether they complete a subsequent transaction.
 *   **Aesthetic Donation Module:** Seamless, non-obtrusive integration with Stripe Checkout Sandbox to process payments.
 *   **Live History Tracking:** Chronologically ordered table showcasing status updates (`Success`, `Pending`, `Failed`) with associated Stripe reference IDs.
 
-### 🔑 Security & Authorization
+### Security & Authorization
 *   **Role-Based Access Control (RBAC):** Middleware protecting backend endpoints and client routers from horizontal escalation.
 *   **Cryptographic Password Storage:** Secure hashing using `bcryptjs` with salt round factors.
 *   **JSON Web Tokens (JWT):** Token-based session states passed natively via standardized bearer authentication headers.
 
-### 📊 Administrator Capabilities
+### Administrator Capabilities
 *   **Aggregated Analytics:** Cards tracking registered user metrics, successful donations count, and monetary sums raised.
 *   **Registration Management:** Searchable and query-filtered records of registered users.
 *   **Transaction Audits:** Complete list of attempts, showing timestamps, statuses, and donor profiles.
 *   **Data Export Utility:** One-click dynamic CSV file generation for local spreadsheet audits.
-
----
-
-## Tech Stack
-
-*   **Frontend:** React (Vite), Tailwind CSS, React Router DOM, Lucide Icons, Axios.
-*   **Backend:** Node.js, Express, JWT, Bcrypt.
-*   **Database:** MongoDB Atlas (Mongoose ODM).
-*   **Gateway:** Stripe Checkout SDK (Sandbox/Test Mode).
 
 ---
 
