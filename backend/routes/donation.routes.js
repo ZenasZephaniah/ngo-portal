@@ -34,7 +34,10 @@ router.post('/create-checkout-session', protect, async (req, res) => {
       });
     }
 
-    // 3. Create Stripe Checkout Session
+    // 3. Resolve dynamic redirect URLs (defaults to localhost:5173 in dev)
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+
+    // 4. Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -45,15 +48,14 @@ router.post('/create-checkout-session', protect, async (req, res) => {
               name: 'NGO Cause Support Donation',
               description: 'Your contribution supports our clean-water & educational campaigns.',
             },
-            unit_amount: amount * 100, // Stripe works in subunit amounts (Pence/Cents/Paisa)
+            unit_amount: amount * 100, // Stripe works in subunit amounts (Paisa)
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      // We pass the local donationId to redirect pages so the frontend can verify the status
-      success_url: `http://localhost:5173/donation-status?session_id={CHECKOUT_SESSION_ID}&donation_id=${donation._id}`,
-      cancel_url: `http://localhost:5173/donation-status?donation_id=${donation._id}&canceled=true`,
+      success_url: `${frontendUrl}/donation-status?session_id={CHECKOUT_SESSION_ID}&donation_id=${donation._id}`,
+      cancel_url: `${frontendUrl}/donation-status?donation_id=${donation._id}&canceled=true`,
     });
 
     // Update database record with the actual Stripe Session ID
